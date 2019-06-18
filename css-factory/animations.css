@@ -1,0 +1,36 @@
+/* Anim: Link Border */
+a::after {
+    content: '';
+    display: block;
+    width: 0;
+    height: 2px;
+    background-color: var(--color-secondary);
+    margin-top: -2px;
+    transition: width 0.3s;
+}
+
+a:hover::after {
+    width: 100%;
+}
+
+/* Anim: Blinking Cursor */
+.blinking-cursor::after {
+    content: '|';
+    height: 100%;
+    font-weight: bold;
+    color: var(--color-code);
+    animation: blink 1.5s steps(4, start) infinite;
+}
+
+@keyframes blink {
+    to {
+        visibility: hidden;
+    }
+}
+
+/* Anim: Button Color */
+.button,
+input[type="submit"],
+button {
+    transition: color 0.25s, background 0.25s;
+}
