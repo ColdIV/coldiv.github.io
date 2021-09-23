@@ -22,6 +22,7 @@
 		html, body { margin: 0; }
 		body {
 			background: #222;
+			overflow: hidden;
 		}
 		h1 { margin: 0; }
 		.author h1 {
@@ -81,12 +82,24 @@
 				height: 500px;
 			}
 		}
+		
+		/* Fun stuff */
+		.trail {
+			position: absolute;
+			height: 6px; width: 6px;
+			border-radius: 3px;
+			background: #ccc;
+			pointer-events: none;
+		}
+		#mousetrail {
+			cursor: pointer;
+		}
 		</style>
 	</head>
 
 	<body>
 		<div class="author"><h1>cldv</h1></div>
-		<div class="tld">&bull;&nbsp;&nbsp;org</div>
+		<div class="tld"><span id="mousetrail">&bull;</span>&nbsp;&nbsp;org</div>
 		<div class="links">
 			<a href="https://github.com/ColdIV" target="_blank" title="ColdIV on GitHub">
 				<img src="logos/github.png" width="20px">
@@ -101,5 +114,75 @@
 		<div class="logo">
 			<img src="logos/cldv.svg" alt="cldv">
 		</div>
+		
+		<script>
+		// Full credit for the mouse trail to Ryan 'falldowngoboone' Boone
+		/*
+			Copyright (c) 2021 by Ryan Boone (https://codepen.io/falldowngoboone/pen/PwzPYv)
+
+			Permission is hereby granted, free of charge, to any person obtaining a copy of this software and associated documentation files (the "Software"), to deal in the Software without restriction, including without limitation the rights to use, copy, modify, merge, publish, distribute, sublicense, and/or sell copies of the Software, and to permit persons to whom the Software is furnished to do so, subject to the following conditions:
+
+			The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
+
+			THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
+		*/
+		document.querySelector('#mousetrail').addEventListener("click", function () {
+			var dots = [],
+				mouse = {
+				x: 65,
+				y: 25
+			};
+
+			var Dot = function() {
+				this.x = 65;
+				this.y = 25;
+				this.node = (function(){
+					var n = document.createElement("div");
+					n.className = "trail";
+					document.body.appendChild(n);
+					return n;
+				}());
+			};
+			
+			Dot.prototype.draw = function() {
+				this.node.style.left = this.x + "px";
+				this.node.style.top = this.y + "px";
+			};
+
+			for (var i = 0; i < 12; i++) {
+				var d = new Dot();
+				dots.push(d);
+			}
+
+			function draw() {
+				var x = mouse.x,
+					y = mouse.y;
+			  
+				dots.forEach(function(dot, index, dots) {
+					var nextDot = dots[index + 1] || dots[0];
+				
+					dot.x = x;
+					dot.y = y;
+					dot.draw();
+					x += (nextDot.x - dot.x) * .6;
+					y += (nextDot.y - dot.y) * .6;
+
+				});
+			}
+
+			addEventListener("mousemove", function(event) {
+				mouse.x = event.pageX;
+				mouse.y = event.pageY;
+			});
+			
+			function animate() {
+				draw();
+				requestAnimationFrame(animate);
+			}
+			
+			animate();
+		}, { once: true });
+
+		</script>
 	</body>
 </html>
