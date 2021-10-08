@@ -29,8 +29,8 @@ export default class Game {
 			size: 25,
 		}
 		
-		this.player.x = this.width / 2
-		this.player.y = this.height / 2
+		this.player.x = 0
+		this.player.y = 0
 
 		// center
 		this.center = {
@@ -59,8 +59,8 @@ export default class Game {
 	}
 
 	reset () {
-		this.player.x = this.center.x
-		this.player.y = this.center.y
+		this.player.x = 0
+		this.player.y = 0
 		this.player.movesUsed = 0
 		this.player.clonesUsed = 0
 		this.clones = []
@@ -84,16 +84,15 @@ export default class Game {
 
 	blockCollision (x, y) {
 		for (let i = 0; i < this.level.blocks.length; ++i) {
-			if (this.center.x - this.player.size + this.level.blocks[i].x * this.step === x - this.player.size 
-			 && this.center.y - this.player.size + this.level.blocks[i].y * this.step === y - this.player.size) return true
+			if (this.level.blocks[i].x === x 
+			 && this.level.blocks[i].y === y) return true
 		}
 		return false
 	}
 
 	goalCollision (x, y, gx, gy) {
 		if (this.DEBUG) console.log(x, y, this.center.x + gx * this.step, this.center.y + gy * this.step);
-		if (this.center.x + gx * this.step === x
-			&& this.center.y + gy * this.step === y) {
+		if (gx === x && gy === y) {
 			return true
 		}
 		return false
@@ -123,8 +122,8 @@ export default class Game {
 
 		if (key === 'ArrowUp' && !this.input[0]) {
 			this.player.movesUsed++
-			if (!this.blockCollision(this.player.x, this.player.y - this.step)) {
-				this.player.y -= this.step
+			if (!this.blockCollision(this.player.x, this.player.y - 1)) {
+				this.player.y -= 1
 			}
 			this.input[0] = true
 			this.path.push(0)
@@ -132,24 +131,24 @@ export default class Game {
 
 		if (key === 'ArrowLeft' && !this.input[1]) {
 			this.player.movesUsed++
-			if (!this.blockCollision(this.player.x - this.step, this.player.y)) {
-				this.player.x -= this.step
+			if (!this.blockCollision(this.player.x - 1, this.player.y)) {
+				this.player.x -= 1
 			}
 			this.input[1] = true
 			this.path.push(1)
 		}
 		if (key === 'ArrowDown' && !this.input[2]) {
 			this.player.movesUsed++
-			if (!this.blockCollision(this.player.x, this.player.y + this.step)) {
-				this.player.y += this.step
+			if (!this.blockCollision(this.player.x, this.player.y + 1)) {
+				this.player.y += 1
 			}
 			this.input[2] = true
 			this.path.push(2)
 		}
 		if (key === 'ArrowRight' && !this.input[3]) {
 			this.player.movesUsed++
-			if (!this.blockCollision(this.player.x + this.step, this.player.y)) {
-				this.player.x += this.step
+			if (!this.blockCollision(this.player.x + 1, this.player.y)) {
+				this.player.x += 1
 			}
 			this.input[3] = true
 			this.path.push(3)
@@ -172,20 +171,20 @@ export default class Game {
 			key === 'ArrowRight') {
 			for (let i = 0; i < this.clones.length; ++i) {
 				if (this.path[this.clones[i].index] === 0) {
-					if (!this.blockCollision(this.clones[i].x, this.clones[i].y - this.step)) {
-						this.clones[i].y -= this.step
+					if (!this.blockCollision(this.clones[i].x, this.clones[i].y - 1)) {
+						this.clones[i].y -= 1
 					}
 				} else if (this.path[this.clones[i].index] === 1) {
-					if (!this.blockCollision(this.clones[i].x - this.step, this.clones[i].y)) {
-						this.clones[i].x -= this.step
+					if (!this.blockCollision(this.clones[i].x - 1, this.clones[i].y)) {
+						this.clones[i].x -= 1
 					}
 				} else if (this.path[this.clones[i].index] === 2) {
-					if (!this.blockCollision(this.clones[i].x, this.clones[i].y + this.step)) {
-						this.clones[i].y += this.step
+					if (!this.blockCollision(this.clones[i].x, this.clones[i].y + 1)) {
+						this.clones[i].y += 1
 					}
 				} else if (this.path[this.clones[i].index] === 3) {
-					if (!this.blockCollision(this.clones[i].x + this.step, this.clones[i].y)) {
-						this.clones[i].x += this.step
+					if (!this.blockCollision(this.clones[i].x + 1, this.clones[i].y)) {
+						this.clones[i].x += 1
 					}
 				}
 				this.clones[i].index++
@@ -248,14 +247,20 @@ export default class Game {
 		}
 
 		// draw player
-		drawCircle(this.ctx, this.player.x, this.player.y, this.player.size, {
+		drawCircle(this.ctx, 
+			this.center.x + this.player.x * this.step,
+			this.center.y + this.player.y * this.step,
+			this.player.size, {
 			fillColor: '#fff',
 			lineWidth: 0,
 		})
 
 		// draw clones
 		for (let i = 0; i < this.clones.length; ++i) {
-			drawCircle(this.ctx, this.clones[i].x, this.clones[i].y, this.player.size, {
+			drawCircle(this.ctx, 
+				this.center.x + this.clones[i].x * this.step, 
+				this.center.y + this.clones[i].y * this.step, 
+				this.player.size, {
 				fillColor: 'rgba(200, 200, 200, .75)',
 				lineWidth: 4,
 				strokeColor: '#999',

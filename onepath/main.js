@@ -60,10 +60,10 @@ document.addEventListener('keyup', (event) => {
 // mobileControls
 let buttons = document.querySelectorAll('#onepath-controls button')
 for (let i = 0; i < buttons.length; ++i) {
-    buttons[i].addEventListener('mousedown', (e) => {
+    buttons[i].addEventListener('touchstart', (e) => {
         game.keyPress(e.currentTarget.dataset.btn)
     })
-    buttons[i].addEventListener('mouseup', (e) => {
+    buttons[i].addEventListener('touchend', (e) => {
         game.keyRelease(e.currentTarget.dataset.btn)
     })
 }
@@ -74,9 +74,7 @@ document.querySelector('#help-button').addEventListener('click', () => {
 })
 
 document.addEventListener('click', (e) => {
-    console.log('yep');
     if (!document.querySelector('.help').contains(e.target) && !document.querySelector('#help-button').contains(e.target) && document.querySelector('body.show-help')) {
-        console.log('yep2');
         document.body.classList.toggle('show-help')
     }
 })
