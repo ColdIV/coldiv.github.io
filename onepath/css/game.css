@@ -155,14 +155,14 @@ body {
 
 #start-button {
     cursor: pointer;
-    font-family: Verdana, sans-serif;
-    font-size: 3rem;
     position: absolute;
     left: 1rem;
     bottom: 2rem;
-    color: #ccc;
-    background-color: transparent;
+    width: 58px;
+    height: 58px;
+    background-color: #ccc;
     border-style: none;
+    border-radius: 50%;
 }
 
 #help-button {
