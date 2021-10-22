@@ -280,12 +280,9 @@ export default class Game {
 
 		// draw text info
 		this.ctx.fillStyle = "#ccc"
-		this.ctx.font = this.fontSize + 'px Verdana, sans-serif';
 		let yPosText = this.fontSize + 16
-		// "i don't want to use icons, unicode is much better" and other stuff I tell myself
-		// there is probably a better solution - but do I look like a js dev?
-		this.ctx.fillText("   " + this.player.movesUsed + ' / ' + this.level.maxSteps + "  ⬤ " + this.player.clonesUsed + ' / ' + this.player.maxClones, this.width / 2 - (16 * (this.fontSize / 2)) / 2, yPosText);
-		this.ctx.fillText("↕              ", this.width / 2 - (17 * (this.fontSize / 2)) / 2 + this.fontSize / 4, yPosText - 2);
-		this.ctx.fillText("↔              ", this.width / 2 - (18 * (this.fontSize / 2)) / 2 + this.fontSize / 4, yPosText - 2);
+		this.ctx.font = this.fontSize + 'px Verdana, sans-serif';
+		this.ctx.fillText("✣", this.width / 2 - (16 * (this.fontSize / 2)) / 2, yPosText);
+		this.ctx.fillText("    " + this.player.movesUsed + ' / ' + this.level.maxSteps + "  ⬤ " + this.player.clonesUsed + ' / ' + this.player.maxClones, this.width / 2 - (16 * (this.fontSize / 2)) / 2, yPosText);
 	}
 }
