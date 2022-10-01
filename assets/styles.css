@@ -10,7 +10,11 @@
 }
 
 :root {
-    --progress-bar: 0px;
+    --clippath-circle-outer: circle(0% at 50% 50%);
+    --clippath-circle-inner: circle(0% at 50% 50%);
+
+    --clip-path-inner-max-size: 6;
+    --clip-path-outer-max-size: 8;
 }
 
 html,
@@ -20,7 +24,7 @@ body {
 }
 
 body {
-    background-color: #111;
+    background-color: #0e0e0e;
     color: #e1e1e1;
     display: flex;
     justify-content: center;
@@ -200,28 +204,49 @@ a:hover {
     }
 }
 
-#background {
+#background > pre {
     width: 100%;
     height: 100%;
-    position: absolute;
+    position: fixed;
     left: 0;
     top: 0;
-    background: #0e0e0e;
-    clip-path: circle(0% at 50% 50%);
+    color: deepskyblue;
+    background: #111;
+    clip-path: var(--clippath-circle-inner);
+    margin: 0;
 }
 
-body:after {
-    content: '';
+#background {
+    display: flex;
+    flex-shrink: 0;
+    height: 100%;
+    width: 100%;
+    background-color: rgba(0,0,0,0.1);
+    clip-path: var(--clippath-circle-outer);
     position: absolute;
-    height: 4px;
-    background: rgba(255,255,255,0.35);
-    width: var(--progress-bar);
-    top: 0px;
-    left: 0;
-    left: 50%;
-    transform: translateX(-50%);
+    filter: drop-shadow(0px 0px 6px #222);
+
+    letter-spacing: 1.3px;
+    line-height: 1.4;
+    font-size: 16px;
+    font-family: monospace;
+
+    overflow: hidden;
 }
 
 .typer {
     margin: 0.3rem 0;
+}
+
+@media screen and (max-width: 767px) {
+    #background {
+        line-height: 1.4;
+        letter-spacing: 1px;
+        font-size: 12px;
+    }
+
+    :root {
+        --clip-path-inner-max-size: 12;
+        --clip-path-outer-max-size: 16;
+    }
 }
