@@ -15,6 +15,13 @@
 
     --clip-path-inner-max-size: 6;
     --clip-path-outer-max-size: 8;
+    --mobile: 0;
+}
+
+@media screen and (max-width: 767px) {
+    :root {
+        --mobile: 1;
+    }
 }
 
 html,

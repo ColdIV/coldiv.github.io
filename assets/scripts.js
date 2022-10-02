@@ -11,6 +11,8 @@ let clipPathOuterSize = 0
 let clipPathInnerMaxSize = parseInt(getComputedStyle(document.body).getPropertyValue('--clip-path-inner-max-size'));
 let clipPathOuterMaxSize = parseInt(getComputedStyle(document.body).getPropertyValue('--clip-path-outer-max-size'));
 
+let isMobile = 1 == getComputedStyle(document.body).getPropertyValue('--mobile')
+
 function drawClipPath (x, y) {
     rootCss.style.setProperty('--clippath-circle-outer', 'circle(' + clipPathOuterSize + '% at ' + x + '% ' + y + '%)');
     rootCss.style.setProperty('--clippath-circle-inner', 'circle(' + clipPathInnerSize+ '% at ' + x + '% ' + y + '%)');
@@ -22,6 +24,12 @@ trigger.addEventListener('click', function clickerFunction (ev) {
         tmpContent = tmpContent.replace(/\n\s*\n/g, '\n')
         tmpContent = tmpContent.replace('&lt;head>', '\n\t&lt;head>')
         tmpContent = tmpContent.replace('\t&lt;/body>', '&lt;/body>')
+        
+        if (isMobile) {
+            console.log('test');
+            tmpContent = tmpContent.replace(/\t/g, ' ')
+        }
+
         document.querySelector('#background').innerHTML = `<pre>\n&lt;!DOCTYPE html>\n&lt;html lang="en">${tmpContent}\n&lt;/html></pre>`
         triggerFirstClick = false
     }
