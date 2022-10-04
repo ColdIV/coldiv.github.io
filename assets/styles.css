@@ -217,10 +217,17 @@ a:hover {
     position: fixed;
     left: 0;
     top: 0;
-    color: deepskyblue;
+    color: #777;
     background: #111;
     clip-path: var(--clippath-circle-inner);
     margin: 0;
+}
+
+@media screen and (max-width: 767px) {
+    #background > pre {
+        white-space: break-spaces;
+        line-height: 1.2;
+    }
 }
 
 #background {
